@@ -2,11 +2,19 @@
 
 require_once 'includes/auth.php';
 require_once 'includes/conexao.php';
-include 'includes/header.php';
-include 'includes/menu.php';
 
 // CRUD de espécies
 $erro = '';
+// Remover espécie (antes de qualquer saída)
+if (isset($_GET['del'])) {
+    $id = intval($_GET['del']);
+    if (!$conn->query('DELETE FROM especies WHERE id = ' . $id)) {
+        $erro = 'Não é possível excluir a espécie: existem pets vinculados a ela.';
+    } else {
+        header('Location: especies.php');
+        exit();
+    }
+}
 // Adicionar espécie
 if (isset($_POST['add_especie'])) {
     $especie = trim($_POST['especie']);
@@ -17,11 +25,6 @@ if (isset($_POST['add_especie'])) {
             $erro = 'Erro ao adicionar espécie.';
         }
     }
-}
-// Remover espécie
-if (isset($_GET['del'])) {
-    $id = intval($_GET['del']);
-    $conn->query('DELETE FROM especies WHERE id = ' . $id);
 }
 // Editar espécie
 if (isset($_POST['edit_especie'])) {
@@ -35,6 +38,8 @@ if (isset($_POST['edit_especie'])) {
 }
 // Listar espécies
 $especies = $conn->query('SELECT * FROM especies ORDER BY especie');
+include 'includes/header.php';
+include 'includes/menu.php';
 ?>
 <body class="bg-light">
 <div class="container">

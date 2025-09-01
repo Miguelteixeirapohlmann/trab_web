@@ -1,6 +1,5 @@
--- Criação do banco de dados
-CREATE DATABASE IF NOT EXISTS pets_trab;
-USE pets_trab;
+CREATE DATABASE IF NOT EXISTS pets_db;
+USE pets_db;
 
 -- Tabela de usuários
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -26,5 +25,6 @@ CREATE TABLE IF NOT EXISTS pets (
     FOREIGN KEY (especie_id) REFERENCES especies(id)
 );
 
--- Usuário padrão para login de teste
 INSERT INTO usuarios (usuario, senha) VALUES ('admin', SHA2('admin123', 256));
+-- Novo usuário para o sistema
+INSERT INTO usuarios (usuario, senha) VALUES ('user1', SHA2('senha123', 256));
